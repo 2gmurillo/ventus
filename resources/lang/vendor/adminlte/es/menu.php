@@ -16,4 +16,10 @@ return [
     'important'                     => 'Importante',
     'warning'                       => 'Advertencia',
     'information'                   => 'Información',
+    'users'                         => 'Usuarios',
+    'products'                      => 'Productos',
+    'groups'                        => 'Grupos',
+    'platinum'                      => 'Platino',
+    'gold'                          => 'Oro',
+    'elite'                         => 'Élite',
 ];

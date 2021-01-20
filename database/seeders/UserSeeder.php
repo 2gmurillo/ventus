@@ -25,5 +25,15 @@ class UserSeeder extends Seeder
         $adminUser->email_verified_at = now();
         $adminUser->remember_token = Str::random(10);
         $adminUser->save();
+
+        $adminUser = new User();
+        $adminUser->name = 'Samy';
+        $adminUser->email = 'samy@ventus.com';
+        $adminUser->password = Hash::make('password');
+        $adminUser->email_verified_at = now();
+        $adminUser->remember_token = Str::random(10);
+        $adminUser->save();
+
+        User::factory(10)->create();
     }
 }
