@@ -3,7 +3,7 @@
 @section('title', __('admin.users.title'))
 
 @section('content_header')
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-items-center">
         <h1>@lang('admin.users.title')</h1>
         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createUser">
             @lang('admin.users.create-button')
@@ -57,6 +57,7 @@
             @endforelse
             </tbody>
         </table>
+        @include('layouts.partials.pagination', ['table' => $users])
     </div>
 @endsection
 
