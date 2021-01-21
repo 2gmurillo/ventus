@@ -3,22 +3,24 @@
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{route('admin.users.update', [$user, '#edit-user'])}}" method="post">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{{"editUser{$user->id}Label"}}">@lang('admin.users.edit')
+                    <strong>{{$user->email}}</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{route('admin.users.update', [$user, "#edit-user-{$user->id}"])}}" method="post">
                 @csrf
                 @method('PATCH')
-                <div class="modal-header">
-                    <h5 class="modal-title" id="{{"editUser{$user->id}Label"}}">@lang('admin.users.edit') <strong>{{$user->email}}</strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-md-4 col-form-label text-md-right"
-                               for="name">@lang('admin.users.fields.name')</label>
+                               for="{{$user->email}}">@lang('admin.users.fields.name')</label>
                         <div class="col-md-6 align-self-center">
-                            <input id="name" type="text" name="name"
-                                   class="form-control @error('name') is-invalid @enderror" value="{{old('name', $user->name)}}">
+                            <input id="{{$user->email}}" type="text" name="name"
+                                   class="form-control @error('name') is-invalid @enderror"
+                                   value="{{old('name', $user->name)}}">
                             @error('name')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -36,12 +38,14 @@
 
 @push('scripts')
     <script>
-        const createModal = $({{"#editUser{$user->id}"}});
+        var editModal = $('#editUser');
+        @if($errors->any())
         if (window.location.hash === '#edit-user') {
-            createModal.modal('show');
-        }
-        createModal.on('hide.bs.modal', function () {
+            editModal.modal('show');
             window.location.hash = '#';
-        });
+        }
+        @else
+            window.location.hash = '#';
+        @endif
     </script>
 @endpush
