@@ -80,5 +80,6 @@
 @endsection
 
 @section('js')
+    @include('sweetalert::alert')
     @stack('scripts')
 @stop

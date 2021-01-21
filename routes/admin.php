@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PanelController::class, 'index'])->name('panel');
-
-Route::resources([
-    'users' => UserController::class,
-]);
+Route::resource('users', UserController::class)->except(['show', 'create', 'edit']);
 Route::match(['put', 'patch'], 'users/{user}/status', [UserController::class, 'changeUserStatus'])->name('users.status');
 
