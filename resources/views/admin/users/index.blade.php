@@ -34,10 +34,10 @@
                         <small>
                             @if ($user->disabled_at)
                                 <span class="text-danger">
-                                    @lang('Disabled') {{$user->disabled_at->diffForHumans()}}
+                                    @lang('admin.users.disabled') {{$user->disabled_at->diffForHumans()}}
                                 </span>
                             @else
-                                <span class="text-success">@lang('Enabled')</span>
+                                <span class="text-success">@lang('admin.users.enabled')</span>
                             @endif
                         </small>
                     </td>
@@ -49,7 +49,25 @@
                         @endif
                     </td>
                     <td class="text-center align-middle">
-                        Botones
+                        <div>
+                            @include('admin.users.show')
+                            @include('admin.users.edit', ['user' => $user])
+                            @include('admin.users.delete')
+                            <form id="{{"{$user->id}-status"}}" method="POST"
+                                  action="{{route('admin.users.status', $user)}}">
+                                @csrf
+                                @method('PATCH')
+                            </form>
+                            <i type="button" class="fas fa-eye" data-toggle="modal"
+                               data-target="{{"#showUser{$user->id}"}}"></i>
+                            <i type="button"
+                               class="@if($user->disabled_at) fas fa-toggle-off @else fas fa-toggle-on @endif"
+                               onclick="event.preventDefault(); document.getElementById('{{"{$user->id}-status"}}').submit();"></i>
+                            <i type="button" class="fas fa-edit" data-toggle="modal"
+                               data-target="{{"#editUser{$user->id}"}}"></i>
+                            <i type="button" class="fas fa-trash-alt" data-toggle="modal"
+                               data-target="{{"#deleteUser{$user->id}"}}"></i>
+                        </div>
                     </td>
                 </tr>
             @empty

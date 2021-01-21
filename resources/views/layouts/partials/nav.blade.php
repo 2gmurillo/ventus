@@ -12,7 +12,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.panel') }}">{{ __('admin.panel.title') }}</a>
+                    <a class="nav-link" href="{{ route('admin.users.index') }}">{{ __('admin.panel.title') }}</a>
                 </li>
             </ul>
 

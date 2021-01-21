@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\PanelController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\Admin\PanelController::class, 'index'])->name('panel');
+Route::get('/', [PanelController::class, 'index'])->name('panel');
 
 Route::resources([
-    'users' => \App\Http\Controllers\Admin\UserController::class,
+    'users' => UserController::class,
 ]);
+Route::match(['put', 'patch'], 'users/{user}/status', [UserController::class, 'changeUserStatus'])->name('users.status');
+

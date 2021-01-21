@@ -18,6 +18,12 @@ return [
             'password-confirm' => 'Confirmación de contraseña',
         ],
         'create-button' => 'Crear un nuevo usuario',
-        'created' => 'Usuario creado exitosamente'
+        'created' => 'Usuario creado exitosamente',
+        'enabled' => 'Usuario habilitado',
+        'disabled' => 'Usuario inhabilitado',
+        'question' => '¿Seguro deseas eliminar al usuario? Esta acción no podrá ser revertida.',
+        'deleted' => 'Usuario eliminado exitosamente',
+        'edit' => 'Editar al usuario',
+        'updated' => 'Usuario actualizado exitosamente',
     ],
 ];

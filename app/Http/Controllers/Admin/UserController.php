@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,7 +36,7 @@ class UserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'min:3', 'max:80'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'email_verified_at' => ['null'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -50,36 +53,45 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user): RedirectResponse
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'min:3', 'max:80'],
+        ]);
+        $user->update([
+            'name' => $validatedData['name'],
+        ]);
+        return redirect()->route('admin.users.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function destroy($id)
+    public function destroy(User $user): RedirectResponse
     {
-        //
+        $user->delete();
+        return back();
+    }
+
+    /**
+     * Change the specified user status.
+     *
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public function changeUserStatus(User $user): RedirectResponse
+    {
+        $user->update(['disabled_at' => $user->disabled_at ? null : now()]);
+        return back();
     }
 }
