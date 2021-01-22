@@ -50,7 +50,7 @@ class UserController extends Controller
             'password' => Hash::make($validatedData['password']),
             'remember_token' => Str::random(10),
         ]);
-        Alert::success('Success Title', __('admin.users.created'));
+        Alert::success(__('admin.users.created'));
         return redirect()->route('admin.users.index');
     }
 

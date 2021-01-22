@@ -32,7 +32,7 @@
                 <tr>
                     <th class="text-center align-middle" scope="row">{{$product->id}}</th>
                     <td class="d-flex justify-content-center">
-                        <img style="width: 50px" src="{{ setPhoto($product->photo) }}"
+                        <img class="rounded" style="width: 50px" src="{{ setPhoto($product->photo) }}"
                              alt="{{$product->name}}">
                     </td>
                     <td class="align-middle">{{$product->name}}</td>

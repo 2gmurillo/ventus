@@ -38,6 +38,7 @@ return [
             'actions' => 'Acciones',
             'stock' => 'Stock',
             'status' => 'Estado',
+            'select-category' => 'Selecciona una categoría',
         ],
         'create-button' => 'Crear un nuevo producto',
         'created' => 'Producto creado exitosamente',

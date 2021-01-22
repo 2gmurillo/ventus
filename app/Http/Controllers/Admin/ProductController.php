@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SaveProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
@@ -20,28 +25,26 @@ class ProductController extends Controller
     {
         return view('admin.products.index', [
             'products' => Product::latest()->paginate(8),
+            'categories' => Category::all(),
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(SaveProductRequest $request): RedirectResponse
     {
-        //
+        $product = new Product();
+        $product->fill(array_filter($request->validated()));
+        if ($request->hasFile('photo')) {
+            $product->photo = $request->file('photo')->store('img');
+        }
+        $product->save();
+        Alert::success(__('admin.products.created'));
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -69,7 +72,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return \Illuminate\Http\Response
      */
