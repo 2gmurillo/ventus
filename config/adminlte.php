@@ -236,7 +236,7 @@ return [
         ],
         [
             'text'  => 'products',
-            'url'   => 'admin/products',
+            'route' => 'admin.products.index',
             'icon'  => 'fas fa-tags',
         ],
         ['header' => 'groups'],

@@ -29,7 +29,7 @@ class CategorySeeder extends Seeder
             'Ropa deportiva',
             'Equipo de portivo',
             'Cuidado corporal',
-            'Alimentación',
+            'Nutrición',
         ];
         for ($i = 0; $i < count($categories); $i++) {
             $category = new Category();

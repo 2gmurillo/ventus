@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         User::truncate();
 
         $adminUser = new User();
-        $adminUser->name = 'Juango';
+        $adminUser->name = 'Juan Gonzalo';
         $adminUser->email = 'admin@ventus.com';
         $adminUser->password = Hash::make('password');
         $adminUser->email_verified_at = now();
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         $adminUser->save();
 
         $adminUser = new User();
-        $adminUser->name = 'Samy';
+        $adminUser->name = 'Samy Jou';
         $adminUser->email = 'samy@ventus.com';
         $adminUser->password = Hash::make('password');
         $adminUser->email_verified_at = now();
