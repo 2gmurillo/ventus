@@ -13,38 +13,38 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name">@lang('admin.users.fields.name')</label>
-                        <input id="name" type="text" name="name"
+                        <input placeholder="name" id="name" type="text" name="name"
                                class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}">
                         @error('name')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="email">@lang('admin.users.fields.email')</label>
-                        <input id="email" type="email" name="email"
+                        <input placeholder="email" id="email" type="email" name="email"
                                class="form-control @error('email') is-invalid @enderror" value="{{old('email')}}">
                         @error('email')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col">
                                 <label for="password">@lang('admin.users.fields.password')</label>
-                                <input id="password" type="password" name="password"
+                                <input placeholder="password" id="password" type="password" name="password"
                                        class="form-control @error('password') is-invalid @enderror"
                                        autocomplete="new-password">
                                 @error('password')
-                                <div class="alert alert-danger">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col">
                                 <label for="password-confirm">@lang('admin.users.fields.password-confirm')</label>
-                                <input id="password-confirm" type="password" name="password_confirmation"
+                                <input placeholder="password" id="password-confirm" type="password" name="password_confirmation"
                                        class="form-control @error('password-confirm') is-invalid @enderror"
                                        autocomplete="new-password">
                                 @error('password-confirm')
-                                <div class="alert alert-danger">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>

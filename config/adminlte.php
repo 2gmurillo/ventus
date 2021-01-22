@@ -226,34 +226,36 @@ return [
     'menu' => [
         [
             'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'url' => 'admin/blog',
+            'can' => 'manage-blog',
         ],
         [
-            'text'  => 'users',
+            'text' => 'users',
             'route' => 'admin.users.index',
-            'icon'  => 'fas fa-user-friends',
+            'icon' => 'fas fa-user-friends',
+            'active' => ['admin/users*'],
         ],
         [
-            'text'  => 'products',
+            'text' => 'products',
             'route' => 'admin.products.index',
-            'icon'  => 'fas fa-tags',
+            'icon' => 'fas fa-tags',
+            'active' => ['admin/products*'],
         ],
         ['header' => 'groups'],
         [
-            'text'       => 'platinum',
+            'text' => 'platinum',
             'icon_color' => 'red',
-            'url'        => '#',
+            'url' => '#',
         ],
         [
-            'text'       => 'gold',
+            'text' => 'gold',
             'icon_color' => 'yellow',
-            'url'        => '#',
+            'url' => '#',
         ],
         [
-            'text'       => 'elite',
+            'text' => 'elite',
             'icon_color' => 'cyan',
-            'url'        => '#',
+            'url' => '#',
         ],
     ],
 

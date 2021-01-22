@@ -51,7 +51,6 @@
                     <td class="text-center align-middle">
                         <div>
                             @include('admin.users.show')
-                            @include('admin.users.edit', ['user' => $user])
                             @include('admin.users.delete')
                             <form id="{{"{$user->id}-status"}}" method="POST"
                                   action="{{route('admin.users.status', $user)}}">
@@ -61,10 +60,9 @@
                             <i type="button" class="fas fa-eye" data-toggle="modal"
                                data-target="{{"#showUser{$user->id}"}}"></i>
                             <i type="button"
-                               class="@if($user->disabled_at) fas fa-toggle-off @else fas fa-toggle-on @endif"
+                               class="fas @if($user->disabled_at) text-danger fa-toggle-off @else text-success fa-toggle-on @endif"
                                onclick="event.preventDefault(); document.getElementById('{{"{$user->id}-status"}}').submit();"></i>
-                            <i type="button" class="fas fa-edit" data-toggle="modal"
-                               data-target="{{"#editUser{$user->id}"}}"></i>
+                            <a type="button" class="fas fa-edit" href="{{route('admin.users.edit', $user)}}"></a>
                             <i type="button" class="fas fa-trash-alt" data-toggle="modal"
                                data-target="{{"#deleteUser{$user->id}"}}"></i>
                         </div>
