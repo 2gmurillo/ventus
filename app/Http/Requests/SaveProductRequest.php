@@ -31,7 +31,7 @@ class SaveProductRequest extends FormRequest
             'photo' => ['nullable', 'image'],
             'price' => ['required', 'numeric', 'min:10', 'max:500'],
             'category_id' => ['required', Rule::in(Category::pluck('id'))],
-            'stock' => ['required', 'numeric', 'min:0', 'max:500'],
+            'stock' => ['required', 'numeric', 'min:0', 'max:100'],
             'status' => ['required', Rule::in(Product::STATUSES)],
         ];
     }

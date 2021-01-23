@@ -39,7 +39,7 @@
                     <td class="align-middle">{{$product->category->name}}</td>
                     <td class="align-middle">{{$product->formattedPrice}}</td>
                     <td class="text-center align-middle">
-                        @if ($product->stock <= 10)
+                        @if ($product->stock <= \App\Models\Product::MINIMUM_STOCK)
                             <p class="text-danger mb-0">{{$product->stock}}</p>
                         @else
                             <p class="text-success mb-0">{{$product->stock}}</p>
@@ -54,7 +54,21 @@
                     </td>
                     <td class="text-center align-middle">
                         <div>
-                            Botones
+                            @include('admin.products.show')
+                            @include('admin.products.delete')
+                            <form id="{{"{$product->id}-status"}}" method="POST"
+                                  action="{{route('admin.products.status', $product)}}">
+                                @csrf
+                                @method('PATCH')
+                            </form>
+                            <i type="button" class="fas fa-eye" data-toggle="modal"
+                               data-target="{{"#showProduct{$product->id}"}}"></i>
+                            <i type="button"
+                               class="fas @if($product->status === \App\Models\Product::STATUSES['available']) text-success fa-toggle-on @else text-danger fa-toggle-off @endif"
+                               onclick="event.preventDefault(); document.getElementById('{{"{$product->id}-status"}}').submit();"></i>
+                            <a type="button" class="fas fa-edit" href="{{route('admin.products.edit', $product)}}"></a>
+                            <i type="button" class="fas fa-trash-alt" data-toggle="modal"
+                               data-target="{{"#deleteProduct{$product->id}"}}"></i>
                         </div>
                     </td>
                 </tr>

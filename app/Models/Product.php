@@ -14,6 +14,7 @@ class Product extends Model
         'available' => 'available',
         'unavailable' => 'unavailable',
     ];
+    public const MINIMUM_STOCK = 15;
 
     /**
      * The attributes that are mass assignable.
