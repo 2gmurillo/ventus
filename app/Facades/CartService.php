@@ -1,19 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Facades;
 
 use App\Models\Cart;
 use App\Models\Product;
-use Illuminate\Support\Facades\Facade;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class CartService extends Facade
+class CartService
 {
-    protected static function getFacadeAccessor(): string
-    {
-        return 'cart';
-    }
-
     /* Returns null or a Cart model instance */
     public static function getCartFromUser()
     {
@@ -26,8 +22,8 @@ class CartService extends Facade
         return $cart ?? auth()->user()->carts()->create();
     }
 
-    public static function addOne(Cart $cart, Product $product)
+    public static function store(Cart $cart, Product $product)
     {
-        Alert::success(__('producto agregado al carrito'));
+        Alert::toast('Producto añadido al carrito');
     }
 }

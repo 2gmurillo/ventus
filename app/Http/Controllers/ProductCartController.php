@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Facades\CartService;
@@ -14,10 +16,10 @@ class ProductCartController extends Controller
      * @param Product $product
      * @return RedirectResponse
      */
-    public function addOne(Product $product): RedirectResponse
+    public function addProductToCart(Product $product): RedirectResponse
     {
         $cart = CartService::getCartFromUserOrCreate();
-        CartService::addOne($cart, $product);
+        CartService::store($cart, $product);
         return back();
     }
 }
