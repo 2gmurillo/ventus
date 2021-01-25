@@ -1,0 +1,23 @@
+body {
+    position: relative;
+}
+#app {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas:
+        "nav"
+        "main"
+        "footer";
+}
+nav {
+    grid-area: nav;
+}
+main {
+    grid-area: main;
+    min-height: 100vh;
+    padding-top: 80px;
+}
+footer {
+    grid-area: footer;
+}

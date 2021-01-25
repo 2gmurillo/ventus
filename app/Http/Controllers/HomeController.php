@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\FilterRequest;
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
@@ -17,12 +22,27 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Display a listing of filtered products.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param FilterRequest $request
      */
-    public function index()
+    public function index(FilterRequest $request)
     {
-        return view('home');
+        $categorySelected = $request->category_selected;
+        $orderBy = $request->order_by;
+        $search = $request->search;
+        $products = Product::with('category')
+            ->category($categorySelected)
+            ->order($orderBy)
+            ->search($search)
+            ->paginate(8);
+
+        return view('home', [
+            'products' => $products,
+            'categorySelected' => $categorySelected,
+            'orderBy' => $orderBy,
+            'search' => $search,
+            'categories' => Category::all(),
+        ]);
     }
 }
