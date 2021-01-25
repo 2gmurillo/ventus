@@ -11,10 +11,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="jumbotron p-3">
+                <div class="jumbotron p-3 d-flex flex-column align-items-center">
                     <img src="{{setPhoto($product->photo)}}" class="img-thumbnail mb-3" alt="{{$product->name}}">
                     <p class="lead"><span
-                            class="font-weight-bold">@lang('admin.products.fields.price'): </span>{{$product->price}}
+                            class="font-weight-bold">@lang('admin.products.fields.price'): </span>{{$product->formattedPrice}}
                     </p>
                     <p class="lead"><span
                             class="font-weight-bold">@lang('admin.products.fields.category'): </span>{{$product->category->name}}
@@ -34,8 +34,9 @@
                             <span class="text-danger">@lang('admin.products.disabled')</span>
                         @endif
                     </p>
-                    <hr class="my-4">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
+                    </div>
                 </div>
             </div>
         </div>

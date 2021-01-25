@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilterRequest;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\View\View;
 
 class HomeController extends Controller
 {

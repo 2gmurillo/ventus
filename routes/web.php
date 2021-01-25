@@ -22,4 +22,5 @@ Auth::routes(['verify' => true]);
 
 Route::middleware(['verified'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::post('products/{product}/carts', [\App\Http\Controllers\ProductCartController::class, 'addOne'])->name('products.carts.addOne');
 });

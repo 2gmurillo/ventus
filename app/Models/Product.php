@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -99,5 +100,17 @@ class Product extends Model
             return $query->where('name', 'LIKE', "%$search%");
         }
         return $query;
+    }
+
+    /**
+     * Get all of the carts that are assigned this product.
+     *
+     * @return BelongsToMany
+     */
+    public function carts(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Cart::class)
+            ->withPivot('quantity');
     }
 }
