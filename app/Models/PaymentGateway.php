@@ -20,7 +20,7 @@ class PaymentGateway extends Model
     protected $fillable = ['name', 'image'];
 
     /**
-     * Get the products for the category.
+     * Get the order record associated with the payment gateway.
      *
      * @return HasMany
      */

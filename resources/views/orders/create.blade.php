@@ -14,8 +14,7 @@
                     @lang('Total'): {{$cart->formattedTotal}}
                 </p>
             </div>
-            {{--            <form class="center-col" action="{{route('orders.store')}}" method="POST">--}}
-            <form class="center-col" method="POST">
+            <form class="center-col" action="{{route('orders.store')}}" method="POST">
                 @csrf
                 <div class="row mt-3">
                     <div class="col">

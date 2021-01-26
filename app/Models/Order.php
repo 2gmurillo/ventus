@@ -13,6 +13,12 @@ class Order extends Model
 {
     use HasFactory;
 
+    public const APPROVED = 'Aprobado';
+    public const REJECTED = 'Rechazado';
+    public const PENDING = 'Pendiente';
+    public const IN_PROCESS = 'En proceso';
+    public const EXPIRATION = 7;
+
     /**
      * The attributes that are mass assignable.
      *

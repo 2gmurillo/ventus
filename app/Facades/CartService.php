@@ -51,7 +51,7 @@ class CartService
         Alert::toast('Producto removido del carrito');
     }
 
-    public static function quantity($cart, $product): int
+    public static function quantity(Cart $cart, Product $product): int
     {
         return $cart->products()
                 ->find($product->id)
@@ -68,7 +68,7 @@ class CartService
         return 0;
     }
 
-    public static function askForStock($cart): void
+    public static function askForStock(Cart $cart): void
     {
         foreach ($cart->products as $product) {
             $quantity = $product->pivot->quantity;
@@ -78,5 +78,22 @@ class CartService
                 ]);
             }
         }
+    }
+
+    public static function getProductsWithQuantity(Cart $cart, bool $isCart = true): object
+    {
+        return $cart->products->mapWithKeys(function ($product) use ($isCart) {
+            $quantity = $product->pivot->quantity;
+            if ($isCart) {
+                if ($product->stock < $quantity) {
+                    throw ValidationException::withMessages([
+                        Alert::error(__("There is not enough stock for the quantity you required of {$product->name}"))
+                    ]);
+                }
+                $product->decrement('stock', $quantity);
+            }
+            $element[$product->id] = ['quantity' => $quantity];
+            return $element;
+        });
     }
 }
