@@ -21,12 +21,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        @include('layouts.partials.nav')
-        <main>
-            @yield('content')
-        </main>
-        @include('layouts.partials.footer')
-    </div>
+<div id="app">
+    @include('layouts.partials.nav')
+    <main>
+        @yield('content')
+    </main>
+    @include('layouts.partials.footer')
+</div>
+@include('sweetalert::alert')
 </body>
 </html>
