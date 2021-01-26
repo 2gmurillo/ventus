@@ -7,7 +7,9 @@ namespace App\Http\Controllers;
 use App\Facades\CartService;
 use App\Factories\PaymentGateways\PaymentGatewayFactory;
 use App\Http\Requests\PaymentGatewayRequest;
+use App\Models\Order;
 use App\Models\PaymentGateway;
+use App\Traits\UpdateOrderStatus;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,6 +18,8 @@ use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
+    use UpdateOrderStatus;
+
     /**
      * Show the form for creating a new order.
      *
@@ -51,5 +55,11 @@ class OrderController extends Controller
         $cart->products()->detach();
         $order->products()->attach($productsWithQuantity->toArray());
         return ['paymentGateway' => $paymentGateway, 'order' => $order];
+    }
+
+    public function show(Order $order): View
+    {
+        $this->updateOrderStatus($order);
+        return view('orders.show', ['order' => $order]);
     }
 }
