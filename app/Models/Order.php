@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -7,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Cart extends Model
+class Order extends Model
 {
     use HasFactory;
 
@@ -17,11 +19,16 @@ class Cart extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id'
+        'reference',
+        'status',
+        'process_url',
+        'quantity',
+        'customer_id',
+        'payment_gateway_id',
     ];
 
     /**
-     * Get the user that owns the cart.
+     * Get the user that owns the order.
      *
      * @return BelongsTo
      */
@@ -31,7 +38,7 @@ class Cart extends Model
     }
 
     /**
-     * Get all of the products for the cart.
+     * Get all of the products for the order.
      *
      * @return BelongsToMany
      */
@@ -43,18 +50,22 @@ class Cart extends Model
     }
 
     /**
-     * Get the total price of the products in the cart.
+     * Get the payment gateway record associated with the order.
+     *
+     * @return BelongsTo
      */
-    protected function getTotalAttribute(): string
+    public function paymentGateway(): BelongsTo
     {
-        return $this->products->pluck('total')->sum();
+        return $this->belongsTo(PaymentGateway::class, 'payment_gateway_id');
     }
 
     /**
-     * Get the total price of the products in the cart.
+     * Get the total price of the products in the order.
+     *
+     * @return float
      */
-    protected function getFormattedTotalAttribute(): string
+    public function getTotalAttribute(): float
     {
-        return "\${$this->products->pluck('total')->sum()} USD";
+        return $this->products->pluck('total')->sum();
     }
 }

@@ -67,4 +67,16 @@ class CartService
         }
         return 0;
     }
+
+    public static function askForStock($cart): void
+    {
+        foreach ($cart->products as $product) {
+            $quantity = $product->pivot->quantity;
+            if ($product->stock < $quantity) {
+                throw ValidationException::withMessages([
+                    Alert::error(__("There is not enough stock for the quantity you required of {$product->name}"))
+                ]);
+            }
+        }
+    }
 }
