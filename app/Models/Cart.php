@@ -41,4 +41,12 @@ class Cart extends Model
             ->belongsToMany(Product::class)
             ->withPivot('quantity');
     }
+
+    /**
+     * Get the total price of the products in the cart.
+     */
+    protected function getTotalAttribute(): string
+    {
+        return "\${$this->products->pluck('total')->sum()} USD";
+    }
 }

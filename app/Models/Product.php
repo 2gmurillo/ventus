@@ -113,4 +113,25 @@ class Product extends Model
             ->belongsToMany(Cart::class)
             ->withPivot('quantity');
     }
+
+    /**
+     * Get the total price of the quantity of one product in the cart or the order.
+     *
+     * @return float
+     */
+    public function getTotalAttribute(): float
+    {
+        return $this->pivot->quantity * $this->price;
+    }
+
+    /**
+     * Get the total price of the quantity of one product in the cart or the order.
+     *
+     * @return string
+     */
+    public function getFormattedTotalAttribute(): string
+    {
+        $total = $this->pivot->quantity * $this->price;
+        return "\${$total} USD";
+    }
 }

@@ -1,6 +1,6 @@
 .footer {
     .footer-up {
-        background-color: $blue-medium;
+        background-color: $blue-high;
 
         div {
             max-width: 1200px;
@@ -30,10 +30,11 @@
     }
 
     .footer-down {
-        background-color: $blue-high;
+        background-color: #095EA1;
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
+        color: $blue-medium;
 
         hr {
             margin-top: 0;

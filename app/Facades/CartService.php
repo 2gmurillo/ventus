@@ -27,8 +27,7 @@ class CartService
         $quantity = CartService::quantity($cart, $product);
         if ($product->stock < $quantity + 1) {
             throw ValidationException::withMessages([
-                'product' =>
-                    __("There is not enough stock for the quantity you required of {$product->name}")
+                Alert::error('No hay stock suficiente para agregar más cantidad de este producto')
             ]);
         }
         $cart->products()->syncWithoutDetaching([
@@ -42,13 +41,14 @@ class CartService
         $quantity = CartService::quantity($cart, $product);
         if ($quantity < 2) {
             throw ValidationException::withMessages([
-                'product' =>
-                    __("You can't have zero quantity of the product")
+                $cart->products()->detach($product->id),
+                Alert::toast('Producto eliminado del carrito'),
             ]);
         }
         $cart->products()->syncWithoutDetaching([
             $product->id => ['quantity' => $quantity - 1]
         ]);
+        Alert::toast('Producto removido del carrito');
     }
 
     public static function quantity($cart, $product): int
@@ -57,5 +57,14 @@ class CartService
                 ->find($product->id)
                 ->pivot
                 ->quantity ?? 0;
+    }
+
+    public static function countProducts(): int
+    {
+        $cart = CartService::getCartFromUser();
+        if ($cart !== null) {
+            return $cart->products->pluck('pivot.quantity')->sum();
+        }
+        return 0;
     }
 }

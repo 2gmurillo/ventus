@@ -1,6 +1,7 @@
-<nav class="fixed-top navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #b7dde9;">
+@inject('cartService', 'App\Facades\CartService')
+<nav class="fixed-top navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #095EA1;">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ route('home') }}">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -13,6 +14,10 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.users.index') }}">{{ __('admin.panel.title') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('carts.index') }}">{{ __('customer.carts.title') }}
+                        ({{$cartService->countProducts()}})</a>
                 </li>
             </ul>
 
