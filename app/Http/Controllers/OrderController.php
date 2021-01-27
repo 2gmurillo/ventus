@@ -20,6 +20,11 @@ class OrderController extends Controller
 {
     use UpdateOrderStatus;
 
+    public function index(): View
+    {
+        return view('orders.index', ['orders' => Order::all()]);
+    }
+
     /**
      * Show the form for creating a new order.
      *

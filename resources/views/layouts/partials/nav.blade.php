@@ -13,7 +13,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.users.index') }}">{{ __('admin.panel.title') }}</a>
+                    <a class="nav-link" href="{{ route('orders.index') }}">{{ __('customer.orders.title') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('carts.index') }}">{{ __('customer.carts.title') }}
@@ -37,6 +37,9 @@
                         </li>
                     @endif
                 @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.users.index') }}">{{ __('admin.panel.title') }}</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

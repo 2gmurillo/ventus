@@ -40,8 +40,7 @@
                                 <button class="btn btn-success" type="submit">@lang('Retry the order')</button>
                             </form>
                         @endif
-{{--                        <a href="{{route('orders.index')}}" class="btn btn-danger ml-2">@lang('Back')</a>--}}
-                        <a href="#" class="btn btn-danger ml-2">@lang('Back')</a>
+                        <a href="{{route('orders.index')}}" class="btn btn-danger ml-2">@lang('Back')</a>
                     </div>
                 </div>
             </div>

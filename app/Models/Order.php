@@ -13,8 +13,8 @@ class Order extends Model
 {
     use HasFactory;
 
-    public const APPROVED = 'Aprobado';
-    public const REJECTED = 'Rechazado';
+    public const APPROVED = 'Aprobada';
+    public const REJECTED = 'Rechazada';
     public const PENDING = 'Pendiente';
     public const IN_PROCESS = 'En proceso';
     public const EXPIRATION = 7;
@@ -73,5 +73,15 @@ class Order extends Model
     public function getTotalAttribute(): float
     {
         return $this->products->pluck('total')->sum();
+    }
+
+    /**
+     * Get formatted total price of the products in the order.
+     *
+     * @return string
+     */
+    public function getFormattedTotalAttribute(): string
+    {
+        return "\${$this->products->pluck('total')->sum()} USD";
     }
 }
