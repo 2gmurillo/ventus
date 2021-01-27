@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
         User::truncate();
 
         $adminUser = new User();
+        $adminUser->role = 'admin';
         $adminUser->name = 'Juan Gonzalo';
         $adminUser->email = 'admin@ventus.com';
         $adminUser->password = Hash::make('password');

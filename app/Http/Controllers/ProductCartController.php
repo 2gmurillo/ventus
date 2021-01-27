@@ -9,7 +9,6 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductCartController extends Controller
 {

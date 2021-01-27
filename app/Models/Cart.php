@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,9 +18,7 @@ class Cart extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'user_id'
-    ];
+    protected $fillable = ['user_id'];
 
     /**
      * Get the user that owns the cart.
@@ -44,8 +44,20 @@ class Cart extends Model
 
     /**
      * Get the total price of the products in the cart.
+     *
+     * @return float
      */
-    protected function getTotalAttribute(): string
+    protected function getTotalAttribute(): float
+    {
+        return $this->products->pluck('total')->sum();
+    }
+
+    /**
+     * Get formatted total price of the products in the cart.
+     *
+     * @return string
+     */
+    protected function getFormattedTotalAttribute(): string
     {
         return "\${$this->products->pluck('total')->sum()} USD";
     }

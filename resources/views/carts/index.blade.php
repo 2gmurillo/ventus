@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <section class="container">
-        <h1>@lang('customer.carts.title')</h1>
+        <h1 class="d-flex justify-content-center">@lang('customer.carts.title')</h1>
         @if (!isset($cart) || $cart->products->isEmpty())
             <div class="alert alert-info w-25 mx-auto mt-3" role="alert">
                 <p class="text-center mb-0">
@@ -10,14 +10,13 @@
             </div>
         @else
             <div class="w-25 mx-auto">
-                <a class="btn btn-outline-success w-100 mb-3" href="#">
-                    {{--<a class="btn btn-success w-100 mb-3" href="{{ route('orders.create') }}">--}}
+                <a class="btn btn-success w-100 mb-3" href="{{ route('orders.create') }}">
                     @lang('Create order')
                 </a>
             </div>
             <div class="alert alert-info w-25 mx-auto" role="alert">
                 <p class="text-center mb-0">
-                    @lang('Total'): {{$cart->total}}
+                    @lang('Total'): {{$cart->formattedTotal}}
                 </p>
             </div>
             <table class="table table-striped">

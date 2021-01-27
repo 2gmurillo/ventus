@@ -35,6 +35,7 @@ class HomeController extends Controller
         $orderBy = $request->order_by;
         $search = $request->search;
         $products = Product::with('category')
+            ->available()
             ->category($categorySelected)
             ->order($orderBy)
             ->search($search)

@@ -11,10 +11,12 @@ class ChangeUserStatusTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function anUserCanChangeUserStatus()
+    public function anAdminUserCanChangeUserStatus()
     {
         //Arrange
-        $authenticatedUser = User::factory()->create();
+        $authenticatedUser = User::factory()->create([
+            'role' => 'admin'
+        ]);
         $userToUpdate = User::factory()->create();
         $previousState = $userToUpdate->disabled_at;
 
@@ -28,8 +30,9 @@ class ChangeUserStatusTest extends TestCase
         $this->assertNotEquals($previousState, $currentState);
     }
 
+
     /** @test */
-    public function aNotAuthenticatedUserCannotChangeUserStatus()
+    public function aNotAdminUserCannotChangeUserStatus()
     {
         //Arrange
         $authenticatedUser = User::factory()->create();
@@ -37,12 +40,13 @@ class ChangeUserStatusTest extends TestCase
         $previousState = $userToUpdate->disabled_at;
 
         //Act
-        $response = $this->patch(route('admin.users.status', $userToUpdate));
+        $response = $this->actingAs($authenticatedUser)
+            ->patch(route('admin.users.status', $userToUpdate));
 
         //Assert
         $userToUpdate = $userToUpdate->refresh();
         $currentState = $userToUpdate->disabled_at;
-        $response->assertStatus(302);
+        $response->assertStatus(403);
         $this->assertEquals($previousState, $currentState);
     }
 }

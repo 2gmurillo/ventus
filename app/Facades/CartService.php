@@ -18,13 +18,24 @@ class CartService
 
     public static function getCartFromUserOrCreate(): Cart
     {
-        $cart = CartService::getCartFromUser();
+        $cart = self::getCartFromUser();
         return $cart ?? auth()->user()->carts()->create();
+    }
+
+    public static function getCartOrderFromUser(): ?Cart
+    {
+        return auth()->user()->carts[1] ?? null;
+    }
+
+    public static function getCartOrderFromUserOrCreate(): Cart
+    {
+        $cartOrder = self::getCartOrderFromUser();
+        return $cartOrder ?? auth()->user()->carts()->create();
     }
 
     public static function store(Cart $cart, Product $product): void
     {
-        $quantity = CartService::quantity($cart, $product);
+        $quantity = self::quantity($cart, $product);
         if ($product->stock < $quantity + 1) {
             throw ValidationException::withMessages([
                 Alert::error('No hay stock suficiente para agregar más cantidad de este producto')
@@ -38,7 +49,7 @@ class CartService
 
     public static function delete(Cart $cart, Product $product): void
     {
-        $quantity = CartService::quantity($cart, $product);
+        $quantity = self::quantity($cart, $product);
         if ($quantity < 2) {
             throw ValidationException::withMessages([
                 $cart->products()->detach($product->id),
@@ -51,7 +62,7 @@ class CartService
         Alert::toast('Producto removido del carrito');
     }
 
-    public static function quantity($cart, $product): int
+    public static function quantity(Cart $cart, Product $product): int
     {
         return $cart->products()
                 ->find($product->id)
@@ -61,10 +72,39 @@ class CartService
 
     public static function countProducts(): int
     {
-        $cart = CartService::getCartFromUser();
+        $cart = self::getCartFromUser();
         if ($cart !== null) {
             return $cart->products->pluck('pivot.quantity')->sum();
         }
         return 0;
+    }
+
+    public static function askForStock($cart): void
+    {
+        foreach ($cart->products as $product) {
+            $quantity = $product->pivot->quantity;
+            if ($product->stock < $quantity) {
+                throw ValidationException::withMessages([
+                    Alert::error(__("There is not enough stock for the quantity you required of {$product->name}"))
+                ]);
+            }
+        }
+    }
+
+    public static function getProductsWithQuantity($cart, bool $isCart = true): object
+    {
+        return $cart->products->mapWithKeys(function ($product) use ($isCart) {
+            $quantity = $product->pivot->quantity;
+            if ($isCart) {
+                if ($product->stock < $quantity || $product->isNotAvailable()) {
+                    throw ValidationException::withMessages([
+                        Alert::error(__("El producto {$product->name} ya no está disponible"))
+                    ]);
+                }
+                $product->decrement('stock', $quantity);
+            }
+            $element[$product->id] = ['quantity' => $quantity];
+            return $element;
+        });
     }
 }

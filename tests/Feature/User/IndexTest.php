@@ -11,11 +11,12 @@ class IndexTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function anAuthenticatedUserCanListUsers()
+    public function anAdminUserCanListUsers()
     {
-        //$this->withoutExceptionHandling();
         //Arrange
-        $authenticatedUser = User::factory()->create();
+        $authenticatedUser = User::factory()->create([
+            'role' => 'admin'
+        ]);
 
         //Act
         $this->actingAs($authenticatedUser);
@@ -27,5 +28,19 @@ class IndexTest extends TestCase
         $response->assertViewHas('users');
         $responseUsers = $response->getOriginalContent()['users'];
         $this->assertEquals($responseUsers->first()->id, $authenticatedUser->id);
+    }
+
+    /** @test */
+    public function aNotAdminUserCannotListUsers(): void
+    {
+        //Arrange
+        $user = User::factory()->create();
+
+        //Act
+        $this->actingAs($user);
+        $response = $this->get(route('admin.users.index'));
+
+        //Assert
+        $response->assertStatus(403);
     }
 }
