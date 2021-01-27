@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <section class="container d-flex flex-column align-items-center">
-        <h1>@lang('My Orders')</h1>
+        <h1>@lang('customer.orders.title')</h1>
         @if (!isset($orders) || $orders->isEmpty())
             <div class="alert alert-info w-25 mx-auto" role="alert">
                 <p class="text-center mb-0">
@@ -51,6 +51,7 @@
                 @endforeach
                 </tbody>
             </table>
+            @include('layouts.partials.pagination', ['table' => $orders])
         @endif
         <div class="w-25 mx-auto mb-3">
             <a href="{{route('home')}}" class="link-bold btn btn-outline-danger w-100">@lang('Back')</a>

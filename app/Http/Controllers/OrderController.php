@@ -22,7 +22,9 @@ class OrderController extends Controller
 
     public function index(): View
     {
-        return view('orders.index', ['orders' => Order::all()]);
+        return view('orders.index', [
+            'orders' => Order::latest()->paginate(8)
+        ]);
     }
 
     /**

@@ -134,4 +134,15 @@ class Product extends Model
         $total = $this->pivot->quantity * $this->price;
         return "\${$total} USD";
     }
+
+    /**
+     * Scope a query to only include available products.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeAvailable(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUSES['available']);
+    }
 }
