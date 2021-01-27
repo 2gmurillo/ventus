@@ -12,6 +12,8 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -28,8 +30,8 @@ class ProductController extends Controller
     {
         $this->authorize('viewAny', Product::class);
         return view('admin.products.index', [
-            'products' => Product::orderBy('updated_at', 'desc')->paginate(8),
-            'categories' => Category::all(),
+            'products' => Product::getCachedAdminProducts(),
+            'categories' => Category::getCachedCategories(),
         ]);
     }
 
@@ -72,6 +74,7 @@ class ProductController extends Controller
      * @param SaveProductRequest $request
      * @param Product $product
      * @return RedirectResponse
+     * @throws AuthorizationException
      */
     public function update(SaveProductRequest $request, Product $product): RedirectResponse
     {
@@ -93,6 +96,7 @@ class ProductController extends Controller
         $this->authorize('delete', Product::class);
         Storage::delete($product->photo);
         $product->delete();
+        Product::flushCache();
         Alert::success(__('admin.products.deleted'));
         return back();
     }
@@ -113,9 +117,7 @@ class ProductController extends Controller
                 ? Product::STATUSES['unavailable']
                 : Product::STATUSES['available']
         ]);
-        $message = $product->status === Product::STATUSES['available']
-            ? 'enabled' : 'disabled';
-        Alert::success(__("admin.products.{$message}"));
+        Product::flushCache();
         return back();
     }
 
@@ -134,6 +136,7 @@ class ProductController extends Controller
             $product->photo = $request->file('photo')->store('img');
         }
         $product->save();
+        Product::flushCache();
         Alert::success(__("admin.products.{$message}"));
     }
 }
