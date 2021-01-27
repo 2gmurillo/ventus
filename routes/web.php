@@ -38,4 +38,17 @@ Route::middleware(['verified'])->group(function () {
 
     Route::resource('orders', \App\Http\Controllers\OrderController::class)
         ->except('destroy');
+
+    Route::post('products/carts/orders/{order}', [
+        \App\Http\Controllers\ProductCartOrderController::class, 'storeCartOrder'
+    ])->name('products.carts.orders.storeCartOrder');
+    Route::post('products/{product}/orders', [
+        \App\Http\Controllers\ProductCartOrderController::class, 'addOne'
+    ])->name('products.carts.orders.addOne');
+    Route::match(['put', 'patch'], 'products/{product}/orders/{cartOrder}', [
+        \App\Http\Controllers\ProductCartOrderController::class, 'removeOne'
+    ])->name('products.carts.orders.removeOne');
+    Route::delete('products/{product}/orders/{cartOrder}', [
+        \App\Http\Controllers\ProductCartOrderController::class, 'destroy'
+    ])->name('products.carts.orders.destroy');
 });

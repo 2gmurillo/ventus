@@ -23,7 +23,9 @@ class OrderController extends Controller
     public function index(): View
     {
         return view('orders.index', [
-            'orders' => Order::latest()->paginate(8)
+            'orders' => Order::with(['products', 'PaymentGateway'])
+                ->where('user_id', auth()->user()->id)
+                ->latest()->paginate(8)
         ]);
     }
 
@@ -52,6 +54,23 @@ class OrderController extends Controller
         return $paymentGateway->createPayment($request, $order);
     }
 
+    public function edit(Order $order): View
+    {
+        return view('orders.edit', [
+            'order' => $order,
+            'cartOrder' => CartService::getCartOrderFromUserOrCreate(),
+            'paymentGateways' => PaymentGateway::all(),
+        ]);
+    }
+
+    public function update(PaymentGatewayRequest $request, Order $order): RedirectResponse
+    {
+        $paymentGateway =
+            PaymentGatewayFactory::create((int)$request->payment_gateway_id);
+        $order = $this->updateOrderProducts($order);
+        return $paymentGateway->createPayment($request, $order);
+    }
+
     public function createPaymentParameters(int $paymentGatewayId): array
     {
         $cart = CartService::getCartFromUser();
@@ -68,5 +87,14 @@ class OrderController extends Controller
     {
         $this->updateOrderStatus($order);
         return view('orders.show', ['order' => $order]);
+    }
+
+    public function updateOrderProducts(Order $order): Order
+    {
+        $cart = CartService::getCartOrderFromUser();
+        $productsWithQuantity = CartService::getProductsWithQuantity($cart);
+        $order->products()->detach();
+        $order->products()->attach($productsWithQuantity->toArray());
+        return $order;
     }
 }

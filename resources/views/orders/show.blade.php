@@ -34,8 +34,7 @@
                     <div class="d-flex justify-content-center">
                         @if($order->status !== \App\Models\Order::APPROVED && $order->status !== \App\Models\Order::PENDING)
                             <form class="d-flex justify-content-center"
-                                  {{--                                  action="{{route('products.carts.orders.storeCartOrder', $order)}}" method="POST">--}}
-                                  method="POST">
+                                  action="{{route('products.carts.orders.storeCartOrder', $order)}}" method="POST">
                                 @csrf
                                 <button class="btn btn-success" type="submit">@lang('Retry the order')</button>
                             </form>

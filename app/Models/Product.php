@@ -145,4 +145,14 @@ class Product extends Model
     {
         return $query->where('status', self::STATUSES['available']);
     }
+
+    /**
+     * Scope a query to ask if product is available.
+     *
+     * @return bool
+     */
+    public function isNotAvailable(): bool
+    {
+        return $this->status === self::STATUSES['unavailable'];
+    }
 }

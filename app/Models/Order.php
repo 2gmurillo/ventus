@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -83,5 +84,18 @@ class Order extends Model
     public function getFormattedTotalAttribute(): string
     {
         return "\${$this->products->pluck('total')->sum()} USD";
+    }
+
+    /**
+     * Get the orders where status is pending or in process.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeWithoutFinalStatus(Builder $query): Builder
+    {
+        return $query
+            ->where('status', self::IN_PROCESS)
+            ->orWhere('status', self::PENDING);
     }
 }
