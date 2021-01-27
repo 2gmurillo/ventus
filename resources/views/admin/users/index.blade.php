@@ -59,12 +59,16 @@
                             </form>
                             <i type="button" class="fas fa-eye" data-toggle="modal"
                                data-target="{{"#showUser{$user->id}"}}"></i>
-                            <i type="button"
-                               class="fas @if($user->disabled_at) text-danger fa-toggle-off @else text-success fa-toggle-on @endif"
-                               onclick="event.preventDefault(); document.getElementById('{{"{$user->id}-status"}}').submit();"></i>
                             <a type="button" class="fas fa-edit" href="{{route('admin.users.edit', $user)}}"></a>
-                            <i type="button" class="fas fa-trash-alt" data-toggle="modal"
-                               data-target="{{"#deleteUser{$user->id}"}}"></i>
+                            @if ($user->role !== 'admin')
+                                <i type="button"
+                                   class="fas @if($user->disabled_at) text-danger fa-toggle-off @else text-success fa-toggle-on @endif"
+                                   onclick="event.preventDefault(); document.getElementById('{{"{$user->id}-status"}}').submit();"></i>
+                            @endif
+                            @if ($user->role !== 'admin')
+                                <i type="button" class="fas fa-trash-alt" data-toggle="modal"
+                                   data-target="{{"#deleteUser{$user->id}"}}"></i>
+                            @endif
                         </div>
                     </td>
                 </tr>
