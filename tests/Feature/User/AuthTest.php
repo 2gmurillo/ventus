@@ -14,6 +14,7 @@ class AuthTest extends TestCase
     /** @test */
     public function aUserCanViewRegisterForm()
     {
+        //$this->withoutExceptionHandling();
         //Act
         $response = $this->get('/register');
 
