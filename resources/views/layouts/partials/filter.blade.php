@@ -1,4 +1,4 @@
-<div class="filter mb-2">
+<div class="filter mb-2 mt-3">
     <div class="filter__search">
         <form id="filter-form-2" action="{{route('home')}}">
             @csrf
