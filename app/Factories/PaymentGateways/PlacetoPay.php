@@ -97,8 +97,7 @@ class PlacetoPay implements PaymentGatewayInterface
         string $description,
         string $currency,
         float $total
-    )
-    {
+    ) {
         $queryParameters['payment']['reference'] = $reference;
         $queryParameters['payment']['description'] = $description;
         $queryParameters['payment']['amount']['currency'] = $currency;
