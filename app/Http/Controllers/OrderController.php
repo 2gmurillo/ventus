@@ -9,6 +9,7 @@ use App\Factories\PaymentGateways\PaymentGatewayFactory;
 use App\Http\Requests\PaymentGatewayRequest;
 use App\Models\Order;
 use App\Models\PaymentGateway;
+use App\Models\Product;
 use App\Traits\UpdateOrderStatus;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -51,6 +52,7 @@ class OrderController extends Controller
             ->createPaymentParameters((int)$request->payment_gateway_id);
         $paymentGateway = $paymentParameters['paymentGateway'];
         $order = $paymentParameters['order'];
+        Product::flushCache();
         return $paymentGateway->createPayment($request, $order);
     }
 
@@ -68,6 +70,7 @@ class OrderController extends Controller
         $paymentGateway =
             PaymentGatewayFactory::create((int)$request->payment_gateway_id);
         $order = $this->updateOrderProducts($order);
+        Product::flushCache();
         return $paymentGateway->createPayment($request, $order);
     }
 
