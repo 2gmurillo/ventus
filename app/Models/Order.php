@@ -87,6 +87,16 @@ class Order extends Model
     }
 
     /**
+     * Get formatted total price of the products in the order.
+     *
+     * @return string
+     */
+    public function getFormattedQuantityAttribute(): string
+    {
+        return "\${$this->quantity} USD";
+    }
+
+    /**
      * Get the orders where status is pending or in process.
      *
      * @param Builder $query

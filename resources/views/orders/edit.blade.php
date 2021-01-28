@@ -4,10 +4,15 @@
         @if (!isset($cartOrder) || $cartOrder->products->isEmpty())
             <div class="alert alert-info w-25 mx-auto mt-3" role="alert">
                 <p class="text-center mb-0">
-                    @lang('There are no products in the order')
+                    @lang('There are no products availables in the order')
                 </p>
             </div>
         @else
+            <div class="alert alert-warning mx-auto mt-3" role="alert">
+                <p class="text-center mb-0">
+                    @lang('Posiblemente esta orden no concuerde con la original debido a la disponibilidad de productos')
+                </p>
+            </div>
             <div class="row my-4">
                 <div class="col-md-4">
                     <div class="alert alert-info w-75 mx-auto" role="alert">

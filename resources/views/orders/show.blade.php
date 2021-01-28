@@ -24,7 +24,7 @@
                     <div class="d-flex flex-column align-items-center">
                         <p><span class="font-weight-bold">@lang('Date')</span>: {{$order->updated_at}}</p>
                         <p><span class="font-weight-bold">@lang('Original Amount')</span>:
-                            ${{number_format($order->total)}} COP</p>
+                            {{$order->formattedQuantity}}</p>
                         <p><span class="font-weight-bold">@lang('Reference')</span>: {{$order->reference}}</p>
                         <p><span class="font-weight-bold">@lang('Status')</span>: {{$order->status}}</p>
                         <p><span
@@ -44,6 +44,11 @@
                 </div>
             </div>
             <div class="col-md-8 mt-3">
+                <div class="alert alert-info mx-auto mt-3" role="alert">
+                    <p class="text-center mb-0">
+                        @lang('Productos disponibles de la orden original')
+                    </p>
+                </div>
                 <table class="table">
                     <thead>
                     <tr>
