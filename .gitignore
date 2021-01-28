@@ -19,6 +19,7 @@ yarn-error.log
 /public/css
 .env.testing
 .env.dusk.local
+.env.travis
 /storage/framework/laravel-excel
 
 # Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows
