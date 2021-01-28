@@ -13,5 +13,5 @@ function setPhoto($photo): string
     if ($photo) {
         return "/storage/{$photo}";
     }
-    return "/img/products/photo.png";
+    return '/img/products/photo.png';
 }
