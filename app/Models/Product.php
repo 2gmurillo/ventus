@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Cache;
 
 class Product extends Model
 {
@@ -154,5 +155,21 @@ class Product extends Model
     public function isNotAvailable(): bool
     {
         return $this->status === self::STATUSES['unavailable'];
+    }
+
+    public static function getCachedAdminProducts(): object
+    {
+        $key = 'admin.products.index.page.' . request('page', 1);
+        return Cache::tags('admin.products')
+            ->rememberForever($key, function () {
+                return Product::with('category')
+                    ->latest()
+                    ->paginate(8);
+            });
+    }
+
+    public static function flushCache(): void
+    {
+        Cache::tags('admin.products')->flush();
     }
 }
