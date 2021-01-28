@@ -62,7 +62,8 @@ class ProductController extends Controller
     public function edit(Product $product): View
     {
         $this->authorize('update', Product::class);
-        return view('admin.products.edit',
+        return view(
+            'admin.products.edit',
             ['product' => $product, 'categories' => Category::all()]
         );
     }
