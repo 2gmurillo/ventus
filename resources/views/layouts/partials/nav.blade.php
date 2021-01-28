@@ -1,5 +1,5 @@
 @inject('cartService', 'App\Facades\CartService')
-<nav class="fixed-top navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #095EA1;">
+<nav class="fixed-top navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #2f2f2f;">
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
             {{ config('app.name', 'Laravel') }}
