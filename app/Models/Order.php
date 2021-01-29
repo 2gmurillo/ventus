@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Cache;
 
 class Order extends Model
 {
@@ -107,5 +108,21 @@ class Order extends Model
         return $query
             ->where('status', self::IN_PROCESS)
             ->orWhere('status', self::PENDING);
+    }
+
+    public static function getCachedOrders(): object
+    {
+        $key = 'orders.index.page.' . request('page', 1) . '.user.' . auth()->user()->id;
+        return Cache::tags('orders')
+            ->rememberForever($key, function () {
+                return Order::with(['products', 'PaymentGateway'])
+                    ->where('user_id', auth()->user()->id)
+                    ->latest()->paginate(8);
+            });
+    }
+
+    public static function flushCache(): void
+    {
+        Cache::tags('orders')->flush();
     }
 }

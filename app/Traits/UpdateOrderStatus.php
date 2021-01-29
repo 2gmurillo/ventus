@@ -19,6 +19,7 @@ trait UpdateOrderStatus
             if ($previousOrderStatus !== $currentOrderStatus) {
                 $order->status = $currentOrderStatus;
                 $order->save();
+                Order::flushCache();
             }
             if ($currentOrderStatus === Order::REJECTED) {
                 foreach ($order->products as $product) {

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Facades\CartService;
 use App\Factories\PaymentGateways\PaymentGatewayFactory;
 use App\Http\Requests\PaymentGatewayRequest;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\PaymentGateway;
 use App\Models\Product;
@@ -24,9 +25,7 @@ class OrderController extends Controller
     public function index(): View
     {
         return view('orders.index', [
-            'orders' => Order::with(['products', 'PaymentGateway'])
-                ->where('user_id', auth()->user()->id)
-                ->latest()->paginate(8)
+            'orders' => Order::getCachedOrders(),
         ]);
     }
 
@@ -53,6 +52,7 @@ class OrderController extends Controller
         $paymentGateway = $paymentParameters['paymentGateway'];
         $order = $paymentParameters['order'];
         Product::flushCache();
+        Order::flushCache();
         return $paymentGateway->createPayment($request, $order);
     }
 
@@ -71,6 +71,7 @@ class OrderController extends Controller
             PaymentGatewayFactory::create((int)$request->payment_gateway_id);
         $order = $this->updateOrderProducts($order);
         Product::flushCache();
+        Order::flushCache();
         return $paymentGateway->createPayment($request, $order);
     }
 

@@ -85,6 +85,7 @@ class PlacetoPay implements PaymentGatewayInterface
         $order->reference = $p2pResponse['requestId'];
         $order->process_url = $p2pResponse['processUrl'];
         $order->save();
+        Order::flushCache();
         return redirect($order->process_url);
     }
 
