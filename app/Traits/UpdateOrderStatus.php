@@ -7,7 +7,6 @@ namespace App\Traits;
 use App\Factories\PaymentGateways\PaymentGatewayFactory;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Support\Facades\Log;
 
 trait UpdateOrderStatus
 {
@@ -20,10 +19,6 @@ trait UpdateOrderStatus
             if ($previousOrderStatus !== $currentOrderStatus) {
                 $order->status = $currentOrderStatus;
                 $order->save();
-                Log::info('Order updated', [
-                    'order_id' => $order->id,
-                    'user_id' => $order->user->id,
-                ]);
             }
             if ($currentOrderStatus === Order::REJECTED) {
                 foreach ($order->products as $product) {
