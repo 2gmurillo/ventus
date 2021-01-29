@@ -61,7 +61,7 @@ class Product extends Model
      * @param Builder $query
      * @return Builder
      */
-    public function scopeCategory(Builder $query, $category): Builder
+    public function scopeCategorySelect(Builder $query, $category): Builder
     {
         if ($category) {
             return $query->where('category_id', $category);
@@ -75,7 +75,7 @@ class Product extends Model
      * @param Builder $query
      * @return Builder
      */
-    public function scopeOrder(Builder $query, $order_by): Builder
+    public function scopeOrderBySelect(Builder $query, $order_by): Builder
     {
         switch ($order_by) {
             case 'asc':

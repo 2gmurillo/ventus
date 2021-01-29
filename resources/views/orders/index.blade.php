@@ -14,7 +14,7 @@
                 <tr>
                     <th class="text-center">@lang('Reference')</th>
                     <th>@lang('Payment Gateway')</th>
-                    <th>@lang('Amount')</th>
+                    <th>@lang('Original Amount')</th>
                     <th class="text-center">@lang('Status')</th>
                     <th class="text-center">@lang('Actions')</th>
                 </tr>
@@ -24,7 +24,7 @@
                     <tr>
                         <td class="text-center align-middle">{{$order->reference}}</td>
                         <td class="align-middle">{{$order->PaymentGateway->name}}</td>
-                        <td class="align-middle">{{$order->formattedTotal}}</td>
+                        <td class="align-middle">{{$order->formattedQuantity}}</td>
                         <td class="text-center align-middle">
                             <span class="badge
                         @if($order->status === \App\Models\Order::APPROVED)
