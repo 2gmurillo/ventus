@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Traits\ConsumeExternalServices;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class PlacetoPay implements PaymentGatewayInterface
@@ -84,6 +85,7 @@ class PlacetoPay implements PaymentGatewayInterface
         $order->reference = $p2pResponse['requestId'];
         $order->process_url = $p2pResponse['processUrl'];
         $order->save();
+        Order::flushCache();
         return redirect($order->process_url);
     }
 
@@ -97,7 +99,8 @@ class PlacetoPay implements PaymentGatewayInterface
         string $description,
         string $currency,
         float $total
-    ) {
+    )
+    {
         $queryParameters['payment']['reference'] = $reference;
         $queryParameters['payment']['description'] = $description;
         $queryParameters['payment']['amount']['currency'] = $currency;
@@ -123,8 +126,10 @@ class PlacetoPay implements PaymentGatewayInterface
 
     public function status(int $reference): string
     {
-        $status = $this->getPaymentInformation($reference)['status']['reason'];
-        switch ($status) {
+        $response = $this->getPaymentInformation($reference);
+        Log::channel('placetopay')
+            ->info('getPaymentInformation', [$response]);
+        switch ($response['status']['reason']) {
             case self::P2P_APPROVED:
                 return Order::APPROVED;
             case self::P2P_REJECTED:

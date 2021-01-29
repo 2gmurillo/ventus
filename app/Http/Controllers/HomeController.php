@@ -36,8 +36,8 @@ class HomeController extends Controller
         $search = $request->search;
         $products = Product::with('category')
             ->available()
-            ->category($categorySelected)
-            ->order($orderBy)
+            ->categorySelect($categorySelected)
+            ->orderBySelect($orderBy)
             ->search($search)
             ->paginate(8);
 
@@ -46,7 +46,7 @@ class HomeController extends Controller
             'categorySelected' => $categorySelected,
             'orderBy' => $orderBy,
             'search' => $search,
-            'categories' => Category::all(),
+            'categories' => Category::getCachedCategories(),
         ]);
     }
 }
