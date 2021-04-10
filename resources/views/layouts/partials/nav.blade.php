@@ -14,6 +14,9 @@
             @auth
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('equipments.index') }}">Equipos</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('orders.index') }}">{{ __('customer.orders.title') }}</a>
                     </li>
                     <li class="nav-item">

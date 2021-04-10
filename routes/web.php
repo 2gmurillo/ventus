@@ -32,6 +32,8 @@ Route::middleware(['verified'])->group(function () {
     Route::resource('carts', \App\Http\Controllers\CartController::class)
         ->only('index');
 
+    Route::resource('equipments', \App\Http\Controllers\EquipmentController::class);
+
     Route::match(['put', 'patch'], 'products/{product}/carts/{cart}', [
         \App\Http\Controllers\ProductCartController::class, 'removeProductFromCart'
     ])->name('products.carts.removeProductFromCart');
